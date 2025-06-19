@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моїй любимій жінці!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #ffb6c1, #ff69b4);
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        .message {
+            background-color: rgba(255, 255, 255, 0.3);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            max-width: 80%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        p {
+            font-size: 1.5em;
+            line-height: 1.6;
+            min-height: 120px;
+        }
+
+        .heart {
+            position: absolute;
+            top: -50px;
+            color: rgba(255, 255, 255, 0.7);
+            animation: fall linear infinite;
+            pointer-events: none;
+            user-select: none;
+            z-index: 1;
+        }
+
+        button {
+            background: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+            font-weight: bold;
+            color: #ff69b4;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            background: #ffeb3b;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="message">
+        <h1>Моїй любимій жінці❤️</h1>
+        <p id="message-text">Тикати тут!</p>
+        <button id="change-btn">Тиць сюди!</button>
+    </div>
+
+    <!-- Пісня Happy Birthday -->
+    <audio id="birthday-audio" loop>
+        <source src="https://cdn.pixabay.com/audio/2022/08/31/audio_40c548bfa7.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const greetings = [
+            "Трошечки з запізненням, алееееее 💖",
+            "Мою любима малолєтка вже повнолітня🌟",
+            "Пенсія не за горами, але поки до неї далеко бажаю🎂🎆",
+            "Щоби гроші падали з неба, сльози були тільки від радості і щоб життя приносило лише задоволення 💕",
+            "Аби сесія сама закривалася і поруч були близькі люди ✨",
+            "Люблю тебе, моя жопка ❤️"
+        ];
+
+        const audio = document.getElementById('birthday-audio');
+        const btn = document.getElementById('change-btn');
+        let clickCount = 0;
+        const maxClicks = greetings.length;
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.className = 'heart';
+            heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 10 + 5 + 's';
+
+            heart.addEventListener('animationend', function() {
+                this.remove();
+            });
+
+            document.body.appendChild(heart);
+        }
+
+        btn.addEventListener('click', function () {
+            // Відтворення музики після натискання
+            if (audio.paused) {
+                audio.play().catch(e => {
+                    console.log("Не вдалося відтворити музику: ", e);
+                });
+            }
+
+            // Показати нове привітання
+            document.getElementById('message-text').innerHTML = greetings[clickCount];
+            clickCount++;
+
+            // Сердечка
+            for (let i = 0; i < 15; i++) {
+                setTimeout(createHeart, i * 100);
+            }
+
+            // Вимикаємо кнопку після останнього привітання
+            if (clickCount >= maxClicks) {
+                this.disabled = true;
+                this.textContent = "А все інше буде як зустрінемося 💋";
+            }
+        });
+
+        // Постійні сердечка
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
